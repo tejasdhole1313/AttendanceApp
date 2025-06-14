@@ -30,7 +30,7 @@ const TabNavigation = () => {
           backgroundColor: '#ffffff',
           elevation: 10,
         },
-        tabBarActiveTintColor: '#0DAB9A',
+        tabBarActiveTintColor: '#31b8ef',
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
       })}

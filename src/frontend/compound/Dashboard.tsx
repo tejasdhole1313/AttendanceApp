@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
 
 const dashboardItems = [
-  { id: '1', title: 'Attendance', icon: 'calendar-check', bgColor: '#E6F4EA', iconColor: '#4CAF50' },
-  { id: '2', title: 'Leaves', icon: 'exit-run', bgColor: '#FFF0E6', iconColor: '#FF7043' },
-  { id: '3', title: 'Holiday List', icon: 'calendar-month', bgColor: '#E6F0FA', iconColor: '#42A5F5' },
-  { id: '4', title: 'Leave Status', icon: 'chart-pie', bgColor: '#F3E8FB', iconColor: '#AB47BC' },
-  { id: '5', title: 'Payslip', icon: 'file-document', bgColor: '#E6FAF0', iconColor: '#26A69A' },
-  { id: '6', title: 'Reports', icon: 'chart-line', bgColor: '#FDECEA', iconColor: '#EF5350' },
+  { id: '1', title: 'Attendance', icon: 'calendar-check', bgColor: '#fff', iconColor: '#31b8ef' },
+  { id: '2', title: 'Leaves', icon: 'exit-run', bgColor: '#fff', iconColor: '#31b8ef' },
+  { id: '3', title: 'Holiday List', icon: 'calendar-month', bgColor: '#fff', iconColor: '#31b8ef' },
+  { id: '4', title: 'Leave Status', icon: 'chart-pie', bgColor: '#fff', iconColor: '#31b8ef' },
+  { id: '5', title: 'Payslip', icon: 'file-document', bgColor: '#fff', iconColor: '#31b8ef' },
+  { id: '6', title: 'Reports', icon: 'chart-line', bgColor: '#fff', iconColor: '#31b8ef' },
 ];
 
 type DashboardItem = {

@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather'; 
+import { useNavigation
+
+ } from '@react-navigation/native';
 
 type HeaderProps = {
   onMenuPress: () => void;
@@ -11,12 +14,12 @@ const Header: React.FC<HeaderProps> = ({ onMenuPress, onNotificationPress }) => 
   const today = new Date();
   const day = today.toLocaleDateString('en-US', { weekday: 'long' });
   const date = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-
+  const navigation = useNavigation<any>();
   return (
     <View style={styles.container}>
       {/* Left: Menu Button */}
       <TouchableOpacity onPress={onMenuPress}>
-        <Icon name="menu" size={24} color="#0DAB9A" />
+        <Icon name="menu" size={24} color="#31b8ef" />
       </TouchableOpacity>
 
       {/* Center: Date Info */}
@@ -26,9 +29,9 @@ const Header: React.FC<HeaderProps> = ({ onMenuPress, onNotificationPress }) => 
       </View>
 
       {/* Right: Notification Icon */}
-      <TouchableOpacity onPress={onNotificationPress}>
-        <Icon name="bell" size={22} color="#0DAB9A" />
-      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('NotificationScreen')}>
+  <Icon name="bell" size={22} color="#31b8ef" />
+</TouchableOpacity>
     </View>
   );
 };
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
   day: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#0DAB9A',
+    color: '#31b8ef',
   },
   date: {
     fontSize: 14,

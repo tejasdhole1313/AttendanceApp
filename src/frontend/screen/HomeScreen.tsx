@@ -16,7 +16,7 @@ type TimeCardProps = {
 
 const TimeCard = ({ icon, label, value }: TimeCardProps) => (
   <View style={styles.card}>
-    <Icon name={icon} size={24} color="#0DAB9A" />
+    <Icon name={icon} size={24} color="#31b8ef" />
     <Text style={styles.label}>{label}</Text>
     <Text style={styles.time}>{value}  </Text>
   </View>
@@ -93,7 +93,6 @@ const HomeScreen = () => {
             <TouchableOpacity  onPress={handleCheckOut}>
             <TimeCard icon="logout" label="Check out" value={checkOutTime || '-- : --'} />
             </TouchableOpacity>
-            
             <TimeCard icon="clock-time-four-outline" label="Total hours" value={totalHours || '--'} />
           </View>
         </View>
@@ -123,7 +122,7 @@ const styles = StyleSheet.create({
   timerValue: {
     fontSize: 32,
     fontWeight: 'bold',
-    color: '#0DAB9A',
+    color: '#31b8ef',
     marginBottom: 16,
     textAlign: 'center',
   },
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   checkInBtn: {
-    backgroundColor: '#0DAB9A',
+    backgroundColor: '#31b8ef',
     padding: 12,
     borderRadius: 8,
     width: '90%',
