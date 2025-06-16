@@ -1,77 +1,114 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
+import React, { useState } from 'react';
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import {
+  Wifi, MapPin, Send, Camera, Calendar, Users, Info, Settings, LogOut, List,
+} from 'lucide-react-native';
+import { useNavigation } from '@react-navigation/native'
+import { RootStackParamList } from '../navigation/Types';
 
-const dashboardItems = [
-  { id: '1', title: 'Attendance', icon: 'calendar-check', bgColor: '#fff', iconColor: '#31b8ef' },
-  { id: '2', title: 'Leaves', icon: 'exit-run', bgColor: '#fff', iconColor: '#31b8ef' },
-  { id: '3', title: 'Holiday List', icon: 'calendar-month', bgColor: '#fff', iconColor: '#31b8ef' },
-  { id: '4', title: 'Leave Status', icon: 'chart-pie', bgColor: '#fff', iconColor: '#31b8ef' },
-  { id: '5', title: 'Payslip', icon: 'file-document', bgColor: '#fff', iconColor: '#31b8ef' },
-  { id: '6', title: 'Reports', icon: 'chart-line', bgColor: '#fff', iconColor: '#31b8ef' },
-];
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type DashboardItem = {
+type DashboardOption = {
   id: string;
-  title: string;
-  icon: string;
-  bgColor: string;
-  iconColor: string;
+  label: string;
+  icon: any;
+  screen?: keyof RootStackParamList;
 };
 
-const Dashboard = () => {
-  const renderItem = ({ item }: { item: DashboardItem }) => (
-    <TouchableOpacity style={[styles.card, { backgroundColor: item.bgColor }]}>
-      <Icon name={item.icon} size={30} color={item.iconColor} />
-      <Text style={styles.cardText}>{item.title}</Text>
-    </TouchableOpacity>
-  );
 
+const lucideOptions = [
+  { id: 'a1', label: 'Wifi', icon: Wifi ,screen:''},
+  { id: 'a2', label: 'Office', icon: MapPin ,screen:'' },
+  { id: 'a3', label: 'GPS', icon: Send ,screen:'' },
+  { id: 'a4', label: 'Selfie', icon: Camera  ,screen:''},
+  { id: 'a5', label: 'Summary', icon: Calendar, screen: 'SummaryScreen' },
+  { id: 'a6', label: 'Leaves', icon: Users, screen: 'Leaves' },
+  { id: 'a7', label: 'Activities', icon: List  ,screen:''},
+  { id: 'a8', label: 'UnScheduled', icon: List  ,screen:''},
+  { id: 'a9', label: 'Payslip', icon: Info, screen: 'SalaryScreen' },
+  { id: 'a10', label: 'Information', icon: Info, screen: 'Information' },
+  { id: 'a11', label: 'Setting', icon: Settings  ,screen:'SettingsScreen'},
+  { id: 'a12', label: 'Logout', icon: LogOut  ,screen:''},
+];
+ 
+const DashboardScreen = () => {
+ 
+const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const [checkStatus, setCheckStatus] = useState<{ [key: string]: 'none' | 'in' | 'out' }>({});
+  const [lastTap, setLastTap] = useState<{ [key: string]: number }>({});
+  
+
+  const getBackgroundColor = (status: 'none' | 'in' | 'out') => {
+    switch (status) {
+      case 'in':
+      case 'out':
+        return '#fff';
+      default:
+        return '#fff';
+    }
+  };
+  
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Dashboard</Text>
+    <View style={styles.screen}>
+     
       <FlatList
-        data={dashboardItems}
-        numColumns={3}
+        data={lucideOptions}
         keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        contentContainerStyle={styles.grid}
+        numColumns={3}
+        columnWrapperStyle={styles.row}
+        renderItem={({ item }) => {
+          const IconComponent = item.icon;
+          const status = checkStatus[item.id] || 'none';
+          return (
+            <TouchableOpacity
+              style={[styles.card, { backgroundColor: getBackgroundColor(status) }]}
+              onPress={() => {
+                if (item.screen) {
+                  navigation.navigate(item.screen);
+                } else {
+                  // Alert.alert(item.label, 'No screen defined');
+                }
+              }}
+              activeOpacity={0.7}
+            >
+              <View style={styles.iconCircle}>
+                <IconComponent color="#31b8ef" size={28} />
+              </View>
+              <Text style={styles.label}>{item.label}</Text>
+            </TouchableOpacity>
+          );
+        }}
       />
     </View>
   );
 };
 
+export default DashboardScreen;
+
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    backgroundColor: '#fff',
-    flex: 1,
-  },
-  heading: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  grid: {
-    justifyContent: 'center',
-  },
+  screen: { flex: 1, padding: 16, backgroundColor: '#fff' },
+  row: { justifyContent: 'space-between', marginBottom: 12 },
   card: {
     flex: 1,
-    margin: 8,
-    padding: 16,
-    borderRadius: 16,
+    margin: 5,
     alignItems: 'center',
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    paddingVertical: 20,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
   },
-  cardText: {
-    marginTop: 10,
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#333',
+  iconCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#e6f7fc',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
   },
+  label: { fontSize: 14, textAlign: 'center' },
 });
 
-export default Dashboard;
+
+
+
+

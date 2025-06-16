@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity , Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather'; 
 import { useNavigation
 
@@ -17,10 +17,14 @@ const Header: React.FC<HeaderProps> = ({ onMenuPress, onNotificationPress }) => 
   const navigation = useNavigation<any>();
   return (
     <View style={styles.container}>
-      {/* Left: Menu Button */}
-      <TouchableOpacity onPress={onMenuPress}>
-        <Icon name="menu" size={24} color="#31b8ef" />
-      </TouchableOpacity>
+  
+      <View>
+        <Image
+    source={require('../assets/images/logo.png')} 
+    style={{ width: 35, height: 20, marginLeft: 5 }}
+  
+  />
+      </View>
 
       {/* Center: Date Info */}
       <View style={styles.textWrapper}>

@@ -1,6 +1,6 @@
 // LoginScreen.tsx
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert ,Image} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import { useNavigation } from '@react-navigation/native';
 
@@ -12,7 +12,7 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     if (email === 'tejas@123.com' && password === '12345') {
-      navigation.replace('Main'); 
+      navigation.replace('Tab'); 
     } else {
       Alert.alert('Invalid Credentials', 'Please enter correct email and password.');
     }
@@ -20,11 +20,20 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
+     <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+  <Image
+    source={require('../assets/images/logo.png')}
+    style={{ width: 50, height: 50 }}
+    resizeMode="contain" 
+  />
+</View>
+
       <Text style={styles.welcome}>Welcome back!</Text>
       <Text style={styles.subtitle}>Glad to see you, Again.</Text>
 
       <TextInput
         placeholder="Enter your email or user id"
+         placeholderTextColor="#888"  
         style={styles.input}
         value={email}
         onChangeText={setEmail}
@@ -32,6 +41,7 @@ const LoginScreen = () => {
       />
       <TextInput
         placeholder="Enter your password"
+           placeholderTextColor="#888"  
         style={styles.input}
         value={password}
         onChangeText={setPassword}
@@ -52,10 +62,7 @@ const LoginScreen = () => {
 
       <Text style={styles.signinHelp}>Not able to sign in?</Text>
 
-      <View style={styles.contactRow}>
-        <TouchableOpacity style={styles.contactBtn}><Text>Email us</Text></TouchableOpacity>
-        <TouchableOpacity style={styles.contactBtn}><Text>Call us</Text></TouchableOpacity>
-      </View>
+     
     </View>
   );
 };
@@ -69,6 +76,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 10,
     marginBottom: 15,
+    color:"black"
   },
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   forgotText: { color: 'gray' },
@@ -78,7 +86,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 20,
   },
-  loginText: { color: '#fff', textAlign: 'center', fontWeight: 'bold' },
+  loginText: { color: 'black', textAlign: 'center', fontWeight: 'bold' },
   signinHelp: { textAlign: 'center', color: '#888' },
   contactRow: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 15 },
   contactBtn: {

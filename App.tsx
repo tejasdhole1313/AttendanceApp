@@ -7,12 +7,16 @@ import TabNavigation from './src/frontend/navigation/TabNavigation'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import NotificationScreen from './src/frontend/header/NotificationScreen'
 import SettingsScreen from './src/frontend/screen/SettingsScreen'
-import AttendanceScreen from './src/frontend/compound/AttendanceScreen'
+import SummaryScreen from './src/frontend/compound/SummaryScreen'
+import SalaryScreen from './src/frontend/compound/SalaryScreen'
 import Leaves from './src/frontend/compound/Leaves'
 import HolidayList from './src/frontend/compound/HolidayList'
 import LeaveStatus from './src/frontend/compound/LeaveStatus'
 import Reports from './src/frontend/compound/Reports'
 import SalarySlip from './src/frontend/compound/SalarySlip'
+import Information from './src/frontend/compound/Information'
+import LoginScreen from './src/frontend/screen/LoginScreen'
+import SplashScreen from './src/frontend/screen/SplashScreen'
 
 
 const App = () => {
@@ -20,18 +24,22 @@ const App = () => {
   const Tab = createMaterialTopTabNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Splash'>
+  <Stack.Screen name="Splash" component={SplashScreen}/>
+         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Tab" component={TabNavigation} />
           <Stack.Screen name="Home" component={HomeScreen} />
            <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
-            <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
-            <Stack.Screen name="AttendanceScreen" component={AttendanceScreen} />
+        
+            <Stack.Screen name="SummaryScreen" component={SummaryScreen} />
             <Stack.Screen name="SettingsScreen" component={Leaves} />
             <Stack.Screen name="Leaves" component={Leaves} />
             <Stack.Screen name="HolidayList" component={HolidayList} />
             <Stack.Screen name="LeaveStatus" component={LeaveStatus} />
             <Stack.Screen name="Reports" component={Reports} />
-            <Stack.Screen name="SalarySlip" component={SalarySlip} />
+            
+            <Stack.Screen name="SalaryScreen" component={SalaryScreen} />
+                   <Stack.Screen name="Information" component={Information} />
       
 
       </Stack.Navigator>

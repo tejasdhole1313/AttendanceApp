@@ -5,7 +5,7 @@ import HomeScreen from '../screen/HomeScreen'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import CalenderScreen from '../screen/CalenderScreen'
 import SettingsScreen from '../screen/SettingsScreen'
-import TeamScreens from '../screen/TeamScreens'
+import TeamScreens from '../screen/ReportScreen'
 
 const Tab = createBottomTabNavigator()
 
@@ -16,12 +16,13 @@ const TabNavigation = () => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName
 
-          if (route.name === 'Home') iconName = focused ? 'home' : 'home-outline'
-          else if (route.name === 'Attendance') iconName = focused ? 'calendar' : 'calendar-outline'
-          else if (route.name === 'Team') iconName = focused ? 'people' : 'people-outline'
-          else if (route.name === 'Settings') iconName = focused ? 'settings' : 'settings-outline'
+    if (route.name === 'Home') iconName = focused ? 'home' : 'home-outline';
+else if (route.name === 'Attendance') iconName = focused ? 'calendar' : 'calendar-outline';
+else if (route.name === 'Report') iconName = focused ? 'document-text' : 'document-text-outline';
+else if (route.name === 'Settings') iconName = focused ? 'settings' : 'settings-outline';
 
-          return <Ionicons name={iconName ?? 'help'} size={size} color={color} />
+return <Ionicons name={iconName ?? 'help'} size={size} color={color} />;
+
         },
         tabBarStyle: {
           height: 60,
@@ -37,7 +38,7 @@ const TabNavigation = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Attendance" component={CalenderScreen} />
-        <Tab.Screen name="Team" component={TeamScreens} />
+        <Tab.Screen name="Report" component={TeamScreens} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
 
       
