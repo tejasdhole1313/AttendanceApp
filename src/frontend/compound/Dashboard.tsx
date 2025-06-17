@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import * as Animatable from 'react-native-animatable';
 
-// Replace this with your actual type
 type RootStackParamList = {
   SummaryScreen: undefined;
   Leaves: undefined;
@@ -24,32 +23,24 @@ type DashboardOption = {
 };
 
 const lucideOptions: DashboardOption[] = [
-  { id: 'a1', label: 'Wifi', icon: Wifi, screen: '' },
-  { id: 'a2', label: 'Office', icon: MapPin, screen: '' },
-  { id: 'a3', label: 'GPS', icon: Send, screen: '' },
-  { id: 'a4', label: 'Selfie', icon: Camera, screen: '' },
+  { id: 'a1', label: 'Wifi', icon: Wifi },
+  { id: 'a2', label: 'Office', icon: MapPin },
+  { id: 'a3', label: 'GPS', icon: Send },
+  { id: 'a4', label: 'Selfie', icon: Camera },
   { id: 'a5', label: 'Summary', icon: Calendar, screen: 'SummaryScreen' },
   { id: 'a6', label: 'Leaves', icon: Users, screen: 'Leaves' },
-  { id: 'a7', label: 'Activities', icon: List, screen: '' },
+  { id: 'a7', label: 'Activities', icon: List },
   { id: 'a8', label: 'Payslip', icon: Info, screen: 'SalaryScreen' },
   { id: 'a9', label: 'Information', icon: Info, screen: 'Information' },
   { id: 'a10', label: 'Setting', icon: Settings, screen: 'SettingsScreen' },
-  { id: 'a11', label: 'Logout', icon: LogOut, screen: '' },
+  { id: 'a11', label: 'Logout', icon: LogOut  },
 ];
 
 const DashboardScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const [checkStatus, setCheckStatus] = useState<{ [key: string]: 'none' | 'in' | 'out' }>({});
+  const [checkStatus] = useState<{ [key: string]: 'none' | 'in' | 'out' }>({});
 
-  const getBackgroundColor = (status: 'none' | 'in' | 'out') => {
-    switch (status) {
-      case 'in':
-      case 'out':
-        return '#fff';
-      default:
-        return '#fff';
-    }
-  };
+  const getBackgroundColor = (status: 'none' | 'in' | 'out') => '#fff';
 
   return (
     <View style={styles.screen}>
@@ -58,13 +49,14 @@ const DashboardScreen = () => {
         keyExtractor={(item) => item.id}
         numColumns={3}
         columnWrapperStyle={styles.row}
+        contentContainerStyle={{ paddingBottom: 24 }}
         renderItem={({ item, index }) => {
           const IconComponent = item.icon;
           const status = checkStatus[item.id] || 'none';
 
           return (
             <Animatable.View
-              animation="zoomIn"
+              animation="fadeInUp"
               delay={index * 100}
               duration={600}
               useNativeDriver
@@ -75,10 +67,10 @@ const DashboardScreen = () => {
                   if (item.screen) {
                     navigation.navigate(item.screen as keyof RootStackParamList);
                   } else {
-                    Alert.alert(item.label, 'No connected ');
+                    Alert.alert(item.label, 'No connected screen yet');
                   }
                 }}
-                activeOpacity={0.7}
+                activeOpacity={0.8}
               >
                 <View style={styles.iconCircle}>
                   <IconComponent color="#31b8ef" size={28} />
@@ -98,43 +90,45 @@ export default DashboardScreen;
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    padding: 16,
-    backgroundColor: '#fff',
+    padding: 10,
+    backgroundColor: '#f8f9fa',
   },
   row: {
     justifyContent: 'space-between',
-    marginBottom: 12,
+    marginBottom: 16,
   },
-card: {
-  flex: 1,
-  margin: 8,
-  width:95,
-  height:100,
-  alignItems: 'center',
-  paddingVertical: 10,
-  padding: 8,
-  backgroundColor: '#fff',
-  borderRadius: 16,
-  borderWidth: 1.5,
-  borderColor: '#d1d1d1',
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 6 },
-  shadowOpacity: 0.15,
-  shadowRadius: 8,
-  elevation: 6,
-},
-
+  card: {
+    flex: 1,
+    margin: 6,
+    width: 100,
+    height: 110,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 6,
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    borderWidth: 1.5,
+    borderColor: '#e0e0e0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
   iconCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: '#e6f7fc',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,
   },
   label: {
-    fontSize: 14,
+    fontSize: 13,
+    fontWeight: '600',
     textAlign: 'center',
+    color: '#333',
   },
 });

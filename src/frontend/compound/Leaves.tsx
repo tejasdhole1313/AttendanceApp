@@ -24,10 +24,7 @@ const Leaves = () => {
 
   return (
     <>
-      <Header
-  onMenuPress={() => console.log('Menu pressed')}
-  onNotificationPress={() => console.log('Notification pressed')}
-/>
+<Header isInternalPage onNotificationPress={() => console.log('Bell')} />
 
 
     <ScrollView contentContainerStyle={styles.container}>
@@ -45,6 +42,7 @@ const Leaves = () => {
      <View style={styles.pickerContainer}>
   <RNPickerSelect
     onValueChange={(value) => handleChange('leaveType', value)}
+    
     placeholder={{
       label: 'Enter Leave Type',
       value: null,
@@ -164,15 +162,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   inputRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#31b8ef',
-    borderRadius: 10,
-    padding: 12,
-    backgroundColor: '#fff',
-  },
+  height: 48,
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  borderWidth: 1,
+  borderColor: '#31b8ef',
+  borderRadius: 10,
+  paddingHorizontal: 12,
+  backgroundColor: '#fff',
+},
+
   inputText: {
     color: '#333',
   },

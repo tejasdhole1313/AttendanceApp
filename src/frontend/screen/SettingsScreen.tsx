@@ -1,18 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, Settings } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-
 
 type MenuItem = {
   id: number;
   title: string;
   icon: string;
 };
-
-
 
 const menuItems: MenuItem[] = [
   { id: 1, title: 'Personal Details', icon: 'account-outline' },
@@ -24,6 +20,7 @@ const menuItems: MenuItem[] = [
 
 const SettingsScreen = () => {
   const navigation = useNavigation();
+
   const renderItem = ({ item }: { item: MenuItem }) => (
     <TouchableOpacity style={styles.menuItem}>
       <View style={styles.iconTitle}>
@@ -34,82 +31,84 @@ const SettingsScreen = () => {
     </TouchableOpacity>
   );
 
-  return (
-    <View style={styles.container}>  
-     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-      <MaterialIcons
-        name="arrow-back"
-        size={28}
-        color="#000"
-        onPress={() => navigation.goBack()}
-      />
-      <Text style={{ fontSize: 20,
-    fontWeight: 'bold',
-    marginLeft: 10, }}>Profile</Text>
-    </View>
-  
+  const ListHeader = () => (
+    <View>
+      {/* Header Bar */}
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <MaterialIcons
+          name="arrow-back"
+          size={28}
+          color="#000"
+          onPress={() => navigation.goBack()}
+        />
+        <Text style={styles.screenTitle}>Profile</Text>
+      </View>
+
+      {/* Profile Info */}
       <View style={styles.profileContainer}>
         <Image
-          source={{ uri: '' }}
+          source={{ uri: '' }} // Add fallback image if needed
           style={styles.profileImage}
         />
         <View style={styles.profileInfo}>
-          <Text style={styles.name}>Tejas Dhole </Text>
-          <Text style={styles.role}>Frontend Devloper</Text>
+          <Text style={styles.name}>Tejas Dhole</Text>
+          <Text style={styles.role}>Frontend Developer</Text>
           <View style={styles.row}>
-          `  {/* <View style={styles.badge}>
+            {/* <View style={styles.badge}>
               <Text style={styles.badgeText}>Tenure - 1.4 year</Text>
-            </View>` */}
+            </View> */}
             <Text style={styles.empId}>485738574</Text>
           </View>
         </View>
       </View>
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
       <FlatList
         data={menuItems}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
         contentContainerStyle={styles.menuList}
+        ListHeaderComponent={ListHeader}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
-  title: { fontSize: 18, fontWeight: 'bold', marginBottom: 10 },
+  container: { flex: 1, backgroundColor: '#fff', padding: 20 },
+  screenTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
   profileContainer: {
-     flexDirection: 'row',
-     alignItems: 'center',
-      marginBottom: 20 ,
-       paddingTop: 25},
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    paddingTop: 25,
+  },
   profileImage: {
-     width: 60, 
-     height: 60,
-      borderRadius: 30,
-       marginRight: 15 },
-  profileInfo: { 
-    flex: 1
-   },
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginRight: 15,
+    backgroundColor: '#ccc',
+  },
+  profileInfo: {
+    flex: 1,
+  },
   name: { fontSize: 16, fontWeight: 'bold' },
   role: { fontSize: 14, color: '#555' },
   row: { flexDirection: 'row', alignItems: 'center', marginTop: 4 },
-  badge: {
-    backgroundColor: '#31b8ef',
-    borderRadius: 12,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    marginRight: 8,
-  },
-  badgeText: { 
-    color: '#fff',
-     fontSize: 12 
-    },
   empId: {
-     fontSize: 12, 
-     color: '#666'
-     },
+    fontSize: 12,
+    color: '#666',
+  },
   menuList: {
-    marginTop: 10 
+    paddingBottom: 20,
   },
   menuItem: {
     flexDirection: 'row',
@@ -119,14 +118,13 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
   },
   iconTitle: {
-     flexDirection: 'row', 
-     alignItems: 'center' 
-    },
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   menuText: {
-     fontSize: 15,
-      marginLeft: 10
-     },
-
+    fontSize: 15,
+    marginLeft: 10,
+  },
 });
 
 export default SettingsScreen;

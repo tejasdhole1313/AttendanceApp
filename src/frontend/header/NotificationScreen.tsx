@@ -1,4 +1,3 @@
-// NotificationScreen.tsx
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,16 +20,27 @@ const NotificationScreen = () => {
     </View>
   );
 
+  const ListHeader = () => (
+    <View>
+      <Text style={styles.heading}>Notifications</Text>
+      {notifications.some((n) => n.recent) && (
+        <>
+          <Text style={styles.section}>Recent</Text>
+          {notifications.filter(n => n.recent).map((item) => renderItem({ item }))}
+          <Text style={styles.section}>This Week</Text>
+        </>
+      )}
+    </View>
+  );
+
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Notifications</Text>
-      <Text style={styles.section}>Recent</Text>
-      {renderItem({ item: notifications[0] })}
-      <Text style={styles.section}>This week</Text>
       <FlatList
-        data={notifications.slice(1)}
+        data={notifications.filter((n) => !n.recent)}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
+        ListHeaderComponent={ListHeader}
+        contentContainerStyle={{ paddingBottom: 20 }}
       />
     </View>
   );
