@@ -3,40 +3,44 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react
 import {
   Wifi, MapPin, Send, Camera, Calendar, Users, Info, Settings, LogOut, List,
 } from 'lucide-react-native';
-import { useNavigation } from '@react-navigation/native'
-import { RootStackParamList } from '../navigation/Types';
-
+import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import * as Animatable from 'react-native-animatable';
+
+// Replace this with your actual type
+type RootStackParamList = {
+  SummaryScreen: undefined;
+  Leaves: undefined;
+  SalaryScreen: undefined;
+  Information: undefined;
+  SettingsScreen: undefined;
+};
 
 type DashboardOption = {
   id: string;
   label: string;
   icon: any;
-  screen?: keyof RootStackParamList;
+  screen?: keyof RootStackParamList | '';
 };
 
-
-const lucideOptions = [
-  { id: 'a1', label: 'Wifi', icon: Wifi ,screen:''},
-  { id: 'a2', label: 'Office', icon: MapPin ,screen:'' },
-  { id: 'a3', label: 'GPS', icon: Send ,screen:'' },
-  { id: 'a4', label: 'Selfie', icon: Camera  ,screen:''},
+const lucideOptions: DashboardOption[] = [
+  { id: 'a1', label: 'Wifi', icon: Wifi, screen: '' },
+  { id: 'a2', label: 'Office', icon: MapPin, screen: '' },
+  { id: 'a3', label: 'GPS', icon: Send, screen: '' },
+  { id: 'a4', label: 'Selfie', icon: Camera, screen: '' },
   { id: 'a5', label: 'Summary', icon: Calendar, screen: 'SummaryScreen' },
   { id: 'a6', label: 'Leaves', icon: Users, screen: 'Leaves' },
-  { id: 'a7', label: 'Activities', icon: List  ,screen:''},
-  { id: 'a8', label: 'UnScheduled', icon: List  ,screen:''},
+  { id: 'a7', label: 'Activities', icon: List, screen: '' },
+  { id: 'a8', label: 'UnScheduled', icon: List, screen: '' },
   { id: 'a9', label: 'Payslip', icon: Info, screen: 'SalaryScreen' },
   { id: 'a10', label: 'Information', icon: Info, screen: 'Information' },
-  { id: 'a11', label: 'Setting', icon: Settings  ,screen:'SettingsScreen'},
-  { id: 'a12', label: 'Logout', icon: LogOut  ,screen:''},
+  { id: 'a11', label: 'Setting', icon: Settings, screen: 'SettingsScreen' },
+  { id: 'a12', label: 'Logout', icon: LogOut, screen: '' },
 ];
- 
+
 const DashboardScreen = () => {
- 
-const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [checkStatus, setCheckStatus] = useState<{ [key: string]: 'none' | 'in' | 'out' }>({});
-  const [lastTap, setLastTap] = useState<{ [key: string]: number }>({});
-  
 
   const getBackgroundColor = (status: 'none' | 'in' | 'out') => {
     switch (status) {
@@ -47,35 +51,42 @@ const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>(
         return '#fff';
     }
   };
-  
+
   return (
     <View style={styles.screen}>
-     
       <FlatList
         data={lucideOptions}
         keyExtractor={(item) => item.id}
         numColumns={3}
         columnWrapperStyle={styles.row}
-        renderItem={({ item }) => {
+        renderItem={({ item, index }) => {
           const IconComponent = item.icon;
           const status = checkStatus[item.id] || 'none';
+
           return (
-            <TouchableOpacity
-              style={[styles.card, { backgroundColor: getBackgroundColor(status) }]}
-              onPress={() => {
-                if (item.screen) {
-                  navigation.navigate(item.screen);
-                } else {
-                  // Alert.alert(item.label, 'No screen defined');
-                }
-              }}
-              activeOpacity={0.7}
+            <Animatable.View
+              animation="zoomIn"
+              delay={index * 100}
+              duration={600}
+              useNativeDriver
             >
-              <View style={styles.iconCircle}>
-                <IconComponent color="#31b8ef" size={28} />
-              </View>
-              <Text style={styles.label}>{item.label}</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.card, { backgroundColor: getBackgroundColor(status) }]}
+                onPress={() => {
+                  if (item.screen) {
+                    navigation.navigate(item.screen as keyof RootStackParamList);
+                  } else {
+                    Alert.alert(item.label, 'No screen defined');
+                  }
+                }}
+                activeOpacity={0.7}
+              >
+                <View style={styles.iconCircle}>
+                  <IconComponent color="#31b8ef" size={28} />
+                </View>
+                <Text style={styles.label}>{item.label}</Text>
+              </TouchableOpacity>
+            </Animatable.View>
           );
         }}
       />
@@ -86,8 +97,15 @@ const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>(
 export default DashboardScreen;
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, padding: 16, backgroundColor: '#fff' },
-  row: { justifyContent: 'space-between', marginBottom: 12 },
+  screen: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#fff',
+  },
+  row: {
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
   card: {
     flex: 1,
     margin: 5,
@@ -105,10 +123,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 8,
   },
-  label: { fontSize: 14, textAlign: 'center' },
+  label: {
+    fontSize: 14,
+    textAlign: 'center',
+  },
 });
-
-
-
-
-

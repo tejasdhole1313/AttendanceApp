@@ -12,7 +12,7 @@ const SummaryScreen = () => {
       <Text style={{padding:20, fontSize:20,  }}>Summary</Text>
       
     </View>
-  </ScrollView>
+  </ScrollView>  
   )
 }
 

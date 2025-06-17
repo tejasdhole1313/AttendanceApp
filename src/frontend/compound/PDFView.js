@@ -1,32 +1,14 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
-import Pdf from 'react-native-pdf';
+import { WebView } from 'react-native-webview';
+import { View, StyleSheet } from 'react-native';
 
-const PDFView = () => {
-  const source = {
-    uri: 'http://www.africau.edu/images/default/sample.pdf', // Or use local: require('../assets/report.pdf')
-    cache: true,
-  };
+const PdfView = () => (
+  <View style={{ flex: 1 }}>
+    <WebView
+      source={{ uri: 'http://www.africau.edu/images/default/sample.pdf' }}
+      style={{ flex: 1 }}
+    />
+  </View>
+);
 
-  return (
-    <View style={styles.container}>
-      <Pdf
-        source={source}
-        style={styles.pdf}
-      />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 25,
-  },
-  pdf: {
-    flex: 1,
-    width: Dimensions.get('window').width,
-  },
-});
-
-export default PDFView;
+export default PdfView;

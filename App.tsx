@@ -17,6 +17,8 @@ import SalarySlip from './src/frontend/compound/SalarySlip'
 import Information from './src/frontend/compound/Information'
 import LoginScreen from './src/frontend/screen/LoginScreen'
 import SplashScreen from './src/frontend/screen/SplashScreen'
+import Pdf from 'react-native-pdf'
+import PDFView from './src/frontend/compound/PDFView'
 
 
 const App = () => {
@@ -37,6 +39,8 @@ const App = () => {
             <Stack.Screen name="HolidayList" component={HolidayList} />
             <Stack.Screen name="LeaveStatus" component={LeaveStatus} />
             <Stack.Screen name="Reports" component={Reports} />
+             <Stack.Screen name="pdf" component={PDFView} />
+   
             
             <Stack.Screen name="SalaryScreen" component={SalaryScreen} />
                    <Stack.Screen name="Information" component={Information} />

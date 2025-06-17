@@ -12,6 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../header/Header';
 import Dashboard from '../compound/Dashboard';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as Animatable from 'react-native-animatable';
 
 type TimeCardProps = {
   icon: string;
@@ -22,13 +23,20 @@ type TimeCardProps = {
 };
 
 const TimeCard = ({ icon, label, value, bgColor = '#fff', onPress }: TimeCardProps) => (
-  <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
-    <View style={[styles.card, { backgroundColor: bgColor }]}>
-      <Icon name={icon} size={24} color="#31b8ef" />
-      <Text style={styles.label}>{label}</Text>
-      <Text style={styles.time}>{value || '-- : --'}</Text>
-    </View>
-  </TouchableOpacity>
+  <Animatable.View
+    animation="zoomIn"
+    duration={1000}
+    delay={label === 'Check in' ? 0 : label === 'Check out' ? 150 : 300}
+    useNativeDriver
+  >
+    <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+      <View style={[styles.card, { backgroundColor: bgColor }]}>
+        <Icon name={icon} size={24} color="#31b8ef" />
+        <Text style={styles.label}>{label}</Text>
+        <Text style={styles.time}>{value || '-- : --'}</Text>
+      </View>
+    </TouchableOpacity>
+  </Animatable.View>
 );
 
 const getCurrentTime = () => {
@@ -86,7 +94,6 @@ const HomeScreen = () => {
     setActiveCard('checkout');
   };
 
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView
@@ -130,8 +137,6 @@ const HomeScreen = () => {
 
 export default HomeScreen;
 
-
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -139,12 +144,17 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   card: {
-   backgroundColor: '#fff',
+    backgroundColor: '#fff',
     borderRadius: 12,
     padding: 12,
     alignItems: 'center',
     width: 100,
-    elevation: 2,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    transform: [{ scale: 1 }],
   },
   label: {
     fontSize: 12,
