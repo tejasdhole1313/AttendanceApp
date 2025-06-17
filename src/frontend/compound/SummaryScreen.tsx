@@ -6,10 +6,14 @@ const SummaryScreen = () => {
   return (
   <ScrollView>
     <View>
-      <Header>
+        <Header
+  onMenuPress={() => console.log('Menu pressed')}
+  onNotificationPress={() => console.log('Notification pressed')}
+/>
 
-      </Header>
-      <Text style={{padding:20, fontSize:20,  }}>Summary</Text>
+
+
+     
       
     </View>
   </ScrollView>  

@@ -31,11 +31,10 @@ const lucideOptions: DashboardOption[] = [
   { id: 'a5', label: 'Summary', icon: Calendar, screen: 'SummaryScreen' },
   { id: 'a6', label: 'Leaves', icon: Users, screen: 'Leaves' },
   { id: 'a7', label: 'Activities', icon: List, screen: '' },
-  { id: 'a8', label: 'UnScheduled', icon: List, screen: '' },
-  { id: 'a9', label: 'Payslip', icon: Info, screen: 'SalaryScreen' },
-  { id: 'a10', label: 'Information', icon: Info, screen: 'Information' },
-  { id: 'a11', label: 'Setting', icon: Settings, screen: 'SettingsScreen' },
-  { id: 'a12', label: 'Logout', icon: LogOut, screen: '' },
+  { id: 'a8', label: 'Payslip', icon: Info, screen: 'SalaryScreen' },
+  { id: 'a9', label: 'Information', icon: Info, screen: 'Information' },
+  { id: 'a10', label: 'Setting', icon: Settings, screen: 'SettingsScreen' },
+  { id: 'a11', label: 'Logout', icon: LogOut, screen: '' },
 ];
 
 const DashboardScreen = () => {
@@ -76,7 +75,7 @@ const DashboardScreen = () => {
                   if (item.screen) {
                     navigation.navigate(item.screen as keyof RootStackParamList);
                   } else {
-                    Alert.alert(item.label, 'No screen defined');
+                    Alert.alert(item.label, 'No connected ');
                   }
                 }}
                 activeOpacity={0.7}
@@ -106,14 +105,25 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 12,
   },
-  card: {
-    flex: 1,
-    margin: 5,
-    alignItems: 'center',
-    paddingVertical: 20,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 10,
-  },
+card: {
+  flex: 1,
+  margin: 8,
+  width:95,
+  height:100,
+  alignItems: 'center',
+  paddingVertical: 10,
+  padding: 8,
+  backgroundColor: '#fff',
+  borderRadius: 16,
+  borderWidth: 1.5,
+  borderColor: '#d1d1d1',
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 6 },
+  shadowOpacity: 0.15,
+  shadowRadius: 8,
+  elevation: 6,
+},
+
   iconCircle: {
     width: 50,
     height: 50,

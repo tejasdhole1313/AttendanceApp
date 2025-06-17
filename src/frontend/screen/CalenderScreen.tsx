@@ -1,16 +1,23 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView, ScrollView, StyleSheet,  } from 'react-native';
+import { View, Text, TouchableOpacity, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Header from '../header/Header';
 
 const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const dates = Array.from({ length: 30 }, (_, i) => i + 1); 
+const dates = Array.from({ length: 30 }, (_, i) => i + 1);
 
 export default function AttendanceScreen() {
+  const today = new Date().getDate(); // e.g., 17
+  const isCheckedIn = true; // TODO: replace with real logic
+let boxStyle = [styles.dateBox]; // ✅ now it's an array
+let textStyle = [styles.dateText];
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
-     <Header />
+     <Header
+  onMenuPress={() => console.log('Menu pressed')}
+  onNotificationPress={() => console.log('Notification pressed')}
+/>
+
 
       <ScrollView style={styles.scroll}>
         {/* Legends */}
@@ -29,25 +36,25 @@ export default function AttendanceScreen() {
             <Text key={i} style={styles.dayLabel}>{day}</Text>
           ))}
 
-          {dates.map((date) => (
-            <View
-              key={date}
-              style={[
-                styles.dateBox,
-                date === 16 && styles.activeDateBox
-              ]}
-            >
-              <Text style={[
-                styles.dateText,
-                date === 16 && styles.activeDateText
-              ]}>
-                {date}
-              </Text>
-            </View>
-          ))}
+          {dates.map((date) => {
+            let boxStyle = [styles.dateBox];
+            let textStyle = [styles.dateText];
+
+          
+if (date === today) {
+  boxStyle.push(isCheckedIn ? styles.presentBox : styles.absentBox);
+  textStyle.push(styles.activeDateText);
+}
+            return (
+              <View key={date} style={boxStyle}>
+  <Text style={textStyle}>{date}</Text>
+</View>
+
+            );
+          })}
         </View>
       </ScrollView>
-   </SafeAreaView>
+    </SafeAreaView>
   );
 }
 
@@ -58,30 +65,13 @@ const Legend = ({ color, label }) => (
   </View>
 );
 
-const NavItem = ({ icon, label, active }) => (
-  <TouchableOpacity style={styles.navItem}>
-    <Ionicons name={icon} size={22} color={active ? 'green' : 'gray'} />
-    <Text style={{ color: active ? 'green' : 'gray', fontSize: 12 }}>{label}</Text>
-  </TouchableOpacity>
-);
-
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  header: {
-    backgroundColor: '#15803d',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  headerTitle: { color: 'white', fontSize: 18, fontWeight: 'bold' },
-  headerIcons: { flexDirection: 'row', alignItems: 'center' },
   scroll: { paddingHorizontal: 16 },
   legendRow: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    paddingVertical: 12
+    paddingVertical: 12,
   },
   legendItem: { flexDirection: 'row', alignItems: 'center' },
   legendCircle: {
@@ -113,38 +103,7 @@ const styles = StyleSheet.create({
     borderRadius: 6
   },
   dateText: { fontSize: 14, color: '#000' },
-  activeDateBox: { backgroundColor: '#22c55e' },
   activeDateText: { color: 'white', fontWeight: 'bold' },
-  overtimeCard: {
-    backgroundColor: '#bbf7d0',
-    marginTop: 20,
-    padding: 16,
-    borderRadius: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 100
-  },
-  overtimeTitle: { fontSize: 16, fontWeight: '600', color: '#065f46' },
-  overtimeHours: { fontSize: 20, fontWeight: 'bold', color: '#000' },
-  addButton: {
-    backgroundColor: '#fb923c',
-    padding: 10,
-    borderRadius: 50
-  },
-  bottomNav: {
-    position: 'absolute',
-    bottom: 0, left: 0, right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 10,
-    backgroundColor: '#fff',
-    borderTopWidth: 1,
-    borderTopColor: '#d1d5db'
-  },
- 
-  navItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  presentBox: { backgroundColor: '#22c55e' },
+  absentBox: { backgroundColor: '#ef4444' },
 });

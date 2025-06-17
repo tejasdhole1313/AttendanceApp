@@ -119,7 +119,8 @@ const HomeScreen = () => {
               label="Check out"
               value={checkOutTime}
               onPress={handleCheckOut}
-              bgColor={activeCard === 'checkout' ? '#317cef' : '#fff'}
+              bgColor={activeCard === 'checkout' ? 'red' : '#fff'}
+              
             />
             <TimeCard
               icon="clock-time-four-outline"
