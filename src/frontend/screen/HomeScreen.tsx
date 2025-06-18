@@ -1,45 +1,42 @@
+import React, { useEffect, useState } from 'react';
 import {
-  ScrollView,
   StyleSheet,
   Text,
   View,
+  ScrollView,
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import React, { useState, useEffect } from 'react';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Animatable from 'react-native-animatable';
+import LinearGradient from 'react-native-linear-gradient';
+
 import Header from '../header/Header';
 import Dashboard from '../compound/Dashboard';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import * as Animatable from 'react-native-animatable';
 
 type TimeCardProps = {
   icon: string;
   label: string;
   value: string;
-  bgColor?: string;
+  gradient: string[];
   onPress?: () => void;
 };
 
-const TimeCard = ({ icon, label, value, bgColor = '#fff', onPress }: TimeCardProps) => (
-  <Animatable.View
-    animation="zoomIn"
-    duration={1000}
-    delay={label === 'Check in' ? 0 : label === 'Check out' ? 150 : 300}
-    useNativeDriver
-  >
-    <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
-      <View style={[styles.card, { backgroundColor: bgColor }]}>
-        <Icon name={icon} size={24} color="#31b8ef" />
+const TimeCard = ({ icon, label, value, gradient, onPress }: TimeCardProps) => (
+  <Animatable.View animation="fadeInUp" duration={1000} useNativeDriver>
+    <TouchableOpacity activeOpacity={0.9} onPress={onPress}>
+      <LinearGradient colors={gradient} style={styles.card}>
+        <Icon name={icon} size={25} color="#fff" />
         <Text style={styles.label}>{label}</Text>
         <Text style={styles.time}>{value || '-- : --'}</Text>
-      </View>
+      </LinearGradient>
     </TouchableOpacity>
   </Animatable.View>
 );
 
-const getCurrentTime = () => {
+const getCurrentTime = (): string => {
   const now = new Date();
   let hours = now.getHours();
   const minutes = now.getMinutes().toString().padStart(2, '0');
@@ -59,18 +56,8 @@ const HomeScreen = () => {
       const [inHour, inMin, inPeriod] = checkInTime.split(/[: ]/);
       const [outHour, outMin, outPeriod] = checkOutTime.split(/[: ]/);
 
-      const in24 =
-        inPeriod === 'PM' && inHour !== '12'
-          ? parseInt(inHour) + 12
-          : inPeriod === 'AM' && inHour === '12'
-          ? 0
-          : parseInt(inHour);
-      const out24 =
-        outPeriod === 'PM' && outHour !== '12'
-          ? parseInt(outHour) + 12
-          : outPeriod === 'AM' && outHour === '12'
-          ? 0
-          : parseInt(outHour);
+      const in24 = inPeriod === 'PM' && inHour !== '12' ? parseInt(inHour) + 12 : inPeriod === 'AM' && inHour === '12' ? 0 : parseInt(inHour);
+      const out24 = outPeriod === 'PM' && outHour !== '12' ? parseInt(outHour) + 12 : outPeriod === 'AM' && outHour === '12' ? 0 : parseInt(outHour);
 
       const inMinutes = in24 * 60 + parseInt(inMin);
       const outMinutes = out24 * 60 + parseInt(outMin);
@@ -96,40 +83,34 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={{ flex: 1 }}
-      >
-        <Header
-          onMenuPress={() => console.log('Menu clicked')}
-          onNotificationPress={() => console.log('Notifications')}
-        />
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
+        <Header onMenuPress={() => console.log('Menu clicked')} onNotificationPress={() => console.log('Notifications')} />
 
-        <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
-          <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.cardContainer}>
             <TimeCard
               icon="login"
               label="Check in"
               value={checkInTime}
+              gradient={activeCard === 'checkin' ? ['#6ee7b7', '#3b82f6'] : ['#d1d5db', '#9ca3af']}
               onPress={handleCheckIn}
-              bgColor={activeCard === 'checkin' ? '#8ac906' : '#fff'}
             />
             <TimeCard
               icon="logout"
               label="Check out"
               value={checkOutTime}
+              gradient={activeCard === 'checkout' ? ['#f87171', '#ef4444'] : ['#d1d5db', '#9ca3af']}
               onPress={handleCheckOut}
-              bgColor={activeCard === 'checkout' ? 'red' : '#fff'}
-              
             />
             <TimeCard
               icon="clock-time-four-outline"
               label="Total hours"
               value={totalHours}
+              gradient={['#facc15', '#eab308']}
             />
           </View>
 
-          <Dashboard />
+          {/* <Dashboard /> */}
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -139,31 +120,43 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  scrollContainer: {
+    paddingBottom: 30,
+  
+    paddingTop: 50,
+    textAlign:"center",
+    alignContent:"center",
+    justifyContent:"center",
+  },
+  cardContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    padding: 16,
+    paddingHorizontal: 5,
+    marginBottom: 20,
+   
   },
   card: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 12,
-    alignItems: 'center',
     width: 100,
-    elevation: 3,
+    height: 100,
+    borderRadius: 100,
+    padding: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 6,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    transform: [{ scale: 1 }],
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
   },
   label: {
-    fontSize: 12,
-    color: '#999',
-    marginTop: 4,
+    fontSize: 14,
+    color: '#000',
+    marginTop: 5,
   },
   time: {
-    fontSize: 15,
-    marginTop: 2,
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#000',
+    marginTop: 4,
   },
 });

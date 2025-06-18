@@ -19,6 +19,7 @@ import LoginScreen from './src/frontend/screen/LoginScreen'
 import SplashScreen from './src/frontend/screen/SplashScreen'
 import Pdf from 'react-native-pdf'
 import PDFView from './src/frontend/compound/PDFView'
+import FaceCheckScreen from './src/frontend/screen/FaceCheckScreen'
 
 
 const App = () => {
@@ -40,6 +41,7 @@ const App = () => {
             <Stack.Screen name="LeaveStatus" component={LeaveStatus} />
             <Stack.Screen name="Reports" component={Reports} />
              <Stack.Screen name="pdf" component={PDFView} />
+              <Stack.Screen name="FaceCheckScreen" component={FaceCheckScreen} />
    
             
             <Stack.Screen name="SalaryScreen" component={SalaryScreen} />

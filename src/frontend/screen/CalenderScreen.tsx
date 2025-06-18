@@ -7,9 +7,9 @@ const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const dates = Array.from({ length: 30 }, (_, i) => i + 1);
 
 export default function AttendanceScreen() {
-  const today = new Date().getDate(); // e.g., 17
-  const isCheckedIn = true; // TODO: replace with real logic
-let boxStyle = [styles.dateBox]; // ✅ now it's an array
+  const today = new Date().getDate(); 
+  const isCheckedIn = true; 
+let boxStyle = [styles.dateBox]; 
 let textStyle = [styles.dateText];
   return (
     <SafeAreaView style={styles.container}>
